@@ -6,13 +6,14 @@ import { CancionDetailComponent } from './cancion-detail/cancion-detail.componen
 import { CancionCreateComponent } from './cancion-create/cancion-create.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CancionEditComponent } from './cancion-edit/cancion-edit.component';
-
+import { MaterialModule } from '../material/material.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 
 @NgModule({
   declarations: [CancionListComponent, CancionDetailComponent, CancionCreateComponent, CancionEditComponent],
   imports: [
-    CommonModule, AppHeaderModule, ReactiveFormsModule
+    CommonModule, AppHeaderModule, ReactiveFormsModule, MaterialModule, FlexLayoutModule
   ],
   exports:[CancionListComponent, CancionDetailComponent, CancionCreateComponent, CancionEditComponent]
 })

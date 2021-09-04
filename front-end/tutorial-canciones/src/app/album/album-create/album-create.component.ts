@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { AlbumService } from '../album.service';
 import { Album, Medio } from '../album';
+import { UsuarioService } from 'src/app/usuario/usuario.service';
 
 @Component({
   selector: 'app-album-create',
@@ -36,13 +37,15 @@ export class AlbumCreateComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: ActivatedRoute,
     private toastr: ToastrService,
-    private routerPath: Router
+    private routerPath: Router,
+    private usuarioServicio: UsuarioService
     ) { }
 
 
   ngOnInit() {
     if(!parseInt(this.router.snapshot.params.userId) || this.router.snapshot.params.userToken === " "){
       this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
+      this.cerrarSession();
     }
     else{
       this.userId = parseInt(this.router.snapshot.params.userId)
@@ -70,7 +73,7 @@ export class AlbumCreateComponent implements OnInit {
 
   cancelCreate(){
     this.albumForm.reset()
-    this.routerPath.navigate([`/albumes/${this.userId}/${this.token}`])
+    this.routerPath.navigate([`/ionic/albumes/${this.userId}/${this.token}`])
   }
 
   createAlbum(newAlbum: Album){
@@ -79,19 +82,26 @@ export class AlbumCreateComponent implements OnInit {
     .subscribe(album => {
       this.showSuccess(album)
       this.albumForm.reset()
-      this.routerPath.navigate([`/albumes/${this.userId}/${this.token}`])
+      this.routerPath.navigate([`/ionic/albumes/${this.userId}/${this.token}`])
     },
     error=> {
       if(error.statusText === "UNAUTHORIZED"){
         this.showWarning("Su sesión ha caducado, por favor vuelva a iniciar sesión.")
+        this.cerrarSession();
       }
       else if(error.statusText === "UNPROCESSABLE ENTITY"){
         this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
+        this.cerrarSession();
       }
       else{
         this.showError("Ha ocurrido un error. " + error.message)
       }
     })
+  }
+
+  cerrarSession(){
+    this.usuarioServicio.cerrarSession();
+    this.routerPath.navigate(['/auth']);
   }
 
 }

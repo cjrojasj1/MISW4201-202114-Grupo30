@@ -14,6 +14,7 @@ export class CancionDetailComponent implements OnInit {
 
   userId: number;
   token: string;
+  displayedColumns: string[] = ['titulo', 'anio', 'medio'];
 
   constructor(
     private router: ActivatedRoute,
@@ -31,7 +32,7 @@ export class CancionDetailComponent implements OnInit {
   }
 
   goToEdit(){
-    this.routerPath.navigate([`/canciones/edit/${this.cancion.id}/${this.userId}/${this.token}`])
+    this.routerPath.navigate([`/ionic/canciones/edit/${this.cancion.id}/${this.userId}/${this.token}`])
   }
 
 }

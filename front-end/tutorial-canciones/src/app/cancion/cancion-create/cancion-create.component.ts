@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { UsuarioService } from 'src/app/usuario/usuario.service';
 import { Cancion } from '../cancion';
 import { CancionService } from '../cancion.service';
 
@@ -21,12 +22,14 @@ export class CancionCreateComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: ActivatedRoute,
     private routerPath: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private usuarioServicio: UsuarioService
   ) { }
 
   ngOnInit() {
     if(!parseInt(this.router.snapshot.params.userId) || this.router.snapshot.params.userToken === " "){
       this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
+      this.cerrarSession();
     }
     else{
       this.userId = parseInt(this.router.snapshot.params.userId)
@@ -47,14 +50,16 @@ export class CancionCreateComponent implements OnInit {
     .subscribe(cancion => {
       this.showSuccess(cancion)
       this.cancionForm.reset()
-      this.routerPath.navigate([`/canciones/${this.userId}/${this.token}`])
+      this.routerPath.navigate([`/ionic/canciones/${this.userId}/${this.token}`])
     },
     error=> {
       if(error.statusText === "UNAUTHORIZED"){
         this.showWarning("Su sesión ha caducado, por favor vuelva a iniciar sesión.")
+        this.cerrarSession();
       }
-      else if(error.statusText === "UNPROCESSABLE ENTITY"){
+      else if(error.statusText === "UNPROCESSABLE ENTITY"){      
         this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
+        this.cerrarSession();
       }
       else{
         this.showError("Ha ocurrido un error. " + error.message)
@@ -64,7 +69,7 @@ export class CancionCreateComponent implements OnInit {
 
   cancelCreate(){
     this.cancionForm.reset()
-    this.routerPath.navigate([`/canciones/${this.userId}/${this.token}`])
+    this.routerPath.navigate([`/ionic/canciones/${this.userId}/${this.token}`])
   }
 
   showError(error: string){
@@ -77,6 +82,11 @@ export class CancionCreateComponent implements OnInit {
 
   showSuccess(cancion: Cancion) {
     this.toastr.success(`La canción ${cancion.titulo} fue creada`, "Creación exitosa");
+  }
+
+  cerrarSession(){
+    this.usuarioServicio.cerrarSession();
+    this.routerPath.navigate(['/auth']);
   }
 
 

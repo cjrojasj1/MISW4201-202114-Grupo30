@@ -1,61 +1,49 @@
-<app-header></app-header>
-<div class="container">
-    <div class="row justify-content-center">
-      <div class="col-10">
-        <div class="card mx-3 my-5">
-          <div class="row">
-            <div class="col-12 text-center">
-              <p class="mt-5 mb-2 fs-3 fw-bold">Asociar Canción a Álbum</p>
+<h1 class="p-3" style="text-align: center;">Asociar Canción a Álbum</h1>
+
+
+<div fxLayout="row" fxLayoutGap="40px" fxLayout.xs="column" fxLayoutAlign="center center">
+    <div fxFlex="60" fxLayout="column">
+
+        <form (ngSubmit)="asociarCancion()" autocomplete="off" [formGroup]="albumCancionForm">
+
+            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="20px">
+                <mat-form-field fxFlex="100" fxLayout.xs="column">
+                    <mat-label>Título</mat-label>
+                    <input matInput type="text" formControlName="tituloAlbum" placeholder="Titulo del album" placeholder id="input_titulo" [readonly]="true">
+
+                </mat-form-field>
             </div>
-          </div>
-          <form class="mx-5 my-3" [formGroup]="albumCancionForm" (ngSubmit)="asociarCancion()">
-  
-            <div class="form-group my-2">
-              <div class="row">
-                <div class="col-2 text-start">
-                  <label>Álbum</label>
-                </div>
-                <div class="col-10">
-                  <input type="text" class="form-control" formControlName="tituloAlbum" placeholder="Titulo del album" [readonly]="true" >
-                </div>
-              </div>
+
+            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="20px">
+                <mat-form-field fxFlex="60" appearance="fill" id="select_medio">
+                    <mat-label>Canción</mat-label>
+                    <mat-select formControlName="idCancion">
+                        <mat-option value="" disabled>Seleccione la cancición que desea asociar</mat-option>
+                        <mat-option *ngFor="let cancion of canciones" value={{cancion.id}}>{{cancion.titulo}}</mat-option>
+                    </mat-select>
+                    <span class="form-text text-danger" *ngIf="albumCancionForm.get('tituloCancion')?.hasError('required') && albumCancionForm.get('tituloCancion')?.touched">
+                        Debe seleccionar una canción para asociarla al álbum
+                    </span>
+                </mat-form-field>
             </div>
-  
-            <div class="form-group my-2">
-              <div class=" row">
-                <div class="col-2 text-start">
-                  <label for="medio">Canción </label>
-                </div>
-                <div class="col-10">
-                  <select #cancion class="form-select" formControlName="tituloCancion" (change)="onSelect(cancion.value)">
-                    <option value="" disabled>Seleccione la cancición que desea asociar</option>
-                    <option *ngFor="let cancion of canciones" value={{cancion.id}}>{{cancion.titulo}}</option>
-                  </select>
-                </div>
-              </div>
-              <div class="row justify-content-center">
-                <div class="col-8">
-                  <div class="alert alert-danger my-3" *ngIf="albumCancionForm.get('tituloCancion')?.hasError('required') && albumCancionForm.get('tituloCancion')?.touched">
-                    Debe seleccionar una canción para asociarla al álbum
-                  </div>
-                </div>
-              </div>
+
+            <br>
+
+            <div fxLayout class="button-row">
+                <button mat-raised-button color="primary" type="submit" [disabled]="!albumCancionForm.valid">
+                    <mat-icon>add</mat-icon>
+                    Asociar canción
+                </button>
+
+                <button mat-raised-button (click)="cancelarAsociacion()">
+                    <mat-icon>cancel</mat-icon>
+                    Cancelar
+                </button>
             </div>
-  
-            
-            
-            <div class="row mt-4">
-              <div class="col-6 text-end">
-                <button class="btn btn-danger" (click)="cancelarAsociacion()">Cancelar</button>
-              </div>
-              <div class="col-6 text-start">
-                <button type="submit" class="btn btn-primary" [disabled]="!albumCancionForm.valid">Asociar canción</button>
-              </div>
-            </div>
-  
-  
-          </form>
-        </div>
-      </div>
+
+        </form>
+
     </div>
-  </div>
+
+
+</div>
