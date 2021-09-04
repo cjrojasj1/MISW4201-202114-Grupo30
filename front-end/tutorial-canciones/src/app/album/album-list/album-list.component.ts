@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from "ngx-toastr";
+import { UsuarioService } from 'src/app/usuario/usuario.service';
 import { Album, Cancion } from '../album';
 import { AlbumService } from '../album.service';
 
@@ -15,7 +16,8 @@ export class AlbumListComponent implements OnInit {
     private albumService: AlbumService,
     private router: ActivatedRoute,
     private toastr: ToastrService,
-    private routerPath: Router
+    private routerPath: Router,
+    private usuarioServicio: UsuarioService
   ) { }
   
   userId: number
@@ -29,6 +31,7 @@ export class AlbumListComponent implements OnInit {
   ngOnInit() {
     if(!parseInt(this.router.snapshot.params.userId) || this.router.snapshot.params.userToken === " "){
       this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
+      this.cerrarSession();
     }
     else{
       this.userId = parseInt(this.router.snapshot.params.userId)
@@ -50,9 +53,11 @@ export class AlbumListComponent implements OnInit {
       console.log(error)
       if(error.statusText === "UNAUTHORIZED"){
         this.showWarning("Su sesión ha caducado, por favor vuelva a iniciar sesión.")
+        this.cerrarSession();
       }
       else if(error.statusText === "UNPROCESSABLE ENTITY"){
         this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
+        this.cerrarSession();
       }
       else{
         this.showError("Ha ocurrido un error. " + error.message)
@@ -107,9 +112,11 @@ export class AlbumListComponent implements OnInit {
     error=> {
       if(error.statusText === "UNAUTHORIZED"){
         this.showWarning("Su sesión ha caducado, por favor vuelva a iniciar sesión.")
+        this.cerrarSession();
       }
       else if(error.statusText === "UNPROCESSABLE ENTITY"){
         this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
+        this.cerrarSession();
       }
       else{
         this.showError("Ha ocurrido un error. " + error.message)
@@ -129,4 +136,10 @@ export class AlbumListComponent implements OnInit {
   showSuccess() {
     this.toastr.success(`El album fue eliminado`, "Eliminado exitosamente");
   }
+
+  cerrarSession(){
+    this.usuarioServicio.cerrarSession();
+    this.routerPath.navigate(['/auth']);
+  }
+
 }

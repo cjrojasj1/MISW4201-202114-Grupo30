@@ -3,6 +3,7 @@ import { Cancion } from '../cancion';
 import { CancionService } from '../cancion.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { UsuarioService } from 'src/app/usuario/usuario.service';
 
 @Component({
   selector: 'app-cancion-list',
@@ -15,7 +16,8 @@ export class CancionListComponent implements OnInit {
     private cancionService: CancionService,
     private routerPath: Router,
     private router: ActivatedRoute,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private usuarioServicio: UsuarioService
   ) { }
 
   userId: number
@@ -29,6 +31,7 @@ export class CancionListComponent implements OnInit {
   ngOnInit() {
     if(!parseInt(this.router.snapshot.params.userId) || this.router.snapshot.params.userToken === " "){
       this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
+      this.cerrarSession();
     }
     else{
       this.userId = parseInt(this.router.snapshot.params.userId)
@@ -90,6 +93,11 @@ export class CancionListComponent implements OnInit {
 
   showSuccess() {
     this.toastr.success(`La canción fue eliminada`, "Eliminada exitosamente");
+  }
+
+  cerrarSession(){
+    this.usuarioServicio.cerrarSession();
+    this.routerPath.navigate(['/auth']);
   }
 
 }

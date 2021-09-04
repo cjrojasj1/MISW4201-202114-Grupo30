@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { UsuarioSesion } from 'src/app/usuario/usuario-sesion';
 import { UsuarioService } from '../../usuario/usuario.service';
 
 @Component({
@@ -9,7 +8,6 @@ import { UsuarioService } from '../../usuario/usuario.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-
 
   get session(){
      return this.usuarioServicio.session;

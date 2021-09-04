@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Cancion } from 'src/app/cancion/cancion';
 import { CancionService } from 'src/app/cancion/cancion.service';
+import { UsuarioService } from 'src/app/usuario/usuario.service';
 import { Album} from '../album';
 import { AlbumService } from '../album.service';
 
@@ -27,12 +28,14 @@ export class AlbumJoinCancionComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: ActivatedRoute,
     private routerPath: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private usuarioServicio: UsuarioService
   ) { }
 
   ngOnInit() {
     if(!parseInt(this.router.snapshot.params.userId) || this.router.snapshot.params.userToken === " "){
       this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
+      this.cerrarSession();
     }
     else{
       this.userId = parseInt(this.router.snapshot.params.userId)
@@ -76,8 +79,13 @@ export class AlbumJoinCancionComponent implements OnInit {
       this.routerPath.navigate([`/ionic/albumes/${this.userId}/${this.token}`])
     },
     error=> {
-      if(error.statusText === "UNPROCESSABLE ENTITY"){
+      if(error.statusText === "UNAUTHORIZED"){
+        this.showWarning("Su sesión ha caducado, por favor vuelva a iniciar sesión.")
+        this.cerrarSession();
+      }
+      else if(error.statusText === "UNPROCESSABLE ENTITY"){
         this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
+        this.cerrarSession();
       }
       else{
         this.showError("Ha ocurrido un error. " + error.message)
@@ -89,12 +97,21 @@ export class AlbumJoinCancionComponent implements OnInit {
     this.albumCancionForm.get('idCancion')?.setValue(albumId)
   }
 
+  showWarning(warning: string){
+    this.toastr.warning(warning, "Error de autenticación")
+  }
+
   showError(error: string){
     this.toastr.error(error, "Error")
   }
 
   showSuccess(tituloAlbum: string, tituloCancion: string) {
     this.toastr.success(`La canción ${tituloCancion} se agregó al album ${tituloAlbum}`, "Asociación exitosa");
+  }
+
+  cerrarSession(){
+    this.usuarioServicio.cerrarSession();
+    this.routerPath.navigate(['/auth']);
   }
 
 }
