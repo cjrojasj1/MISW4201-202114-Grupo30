@@ -24,6 +24,7 @@ export class CancionListComponent implements OnInit {
   mostrarCanciones: Array<Cancion>
   cancionSeleccionada: Cancion
   indiceSeleccionado: number = 0
+  displayedColumns: string[] = ['titulo', 'duracion'];
 
   ngOnInit() {
     if(!parseInt(this.router.snapshot.params.userId) || this.router.snapshot.params.userToken === " "){
@@ -80,7 +81,7 @@ export class CancionListComponent implements OnInit {
   }
 
   irCrearCancion(){
-    this.routerPath.navigate([`/canciones/create/${this.userId}/${this.token}`])
+    this.routerPath.navigate([`/ionic/canciones/create/${this.userId}/${this.token}`])
   }
 
   showError(error: string){

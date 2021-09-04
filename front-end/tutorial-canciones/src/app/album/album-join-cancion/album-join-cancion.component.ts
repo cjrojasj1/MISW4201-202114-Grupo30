@@ -43,8 +43,7 @@ export class AlbumJoinCancionComponent implements OnInit {
         this.album = album
         this.albumCancionForm = this.formBuilder.group({
           tituloAlbum: [album.titulo, [Validators.required]],
-          idCancion: ["", [Validators.required]],
-          tituloCancion: ["", [Validators.required]]
+          idCancion: ["", [Validators.required]]
         })
         this.getCanciones(album.canciones)
       })
@@ -66,7 +65,7 @@ export class AlbumJoinCancionComponent implements OnInit {
 
   cancelarAsociacion(){
     this.albumCancionForm.reset()
-    this.routerPath.navigate([`/albumes/${this.userId}/${this.token}`])
+    this.routerPath.navigate([`/ionic/albumes/${this.userId}/${this.token}`])
   }
 
   asociarCancion(){
@@ -74,7 +73,7 @@ export class AlbumJoinCancionComponent implements OnInit {
     .subscribe(cancion => {
       this.showSuccess(this.albumCancionForm.get('tituloAlbum')?.value, cancion.titulo)
       this.albumCancionForm.reset()
-      this.routerPath.navigate([`/albumes/${this.userId}/${this.token}`])
+      this.routerPath.navigate([`/ionic/albumes/${this.userId}/${this.token}`])
     },
     error=> {
       if(error.statusText === "UNPROCESSABLE ENTITY"){

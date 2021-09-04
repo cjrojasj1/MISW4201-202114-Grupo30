@@ -7,12 +7,14 @@ import { AlbumCreateComponent } from './album-create/album-create.component';
 import { AlbumEditComponent } from './album-edit/album-edit.component';
 import { AppHeaderModule } from '../app-header/app-header.module';
 import { AlbumJoinCancionComponent } from './album-join-cancion/album-join-cancion.component';
+import { MaterialModule } from '../material/material.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 
 @NgModule({
   declarations: [AlbumListComponent, AlbumDetailComponent, AlbumCreateComponent, AlbumEditComponent, AlbumJoinCancionComponent],
   imports: [
-    CommonModule, ReactiveFormsModule, AppHeaderModule
+    CommonModule, ReactiveFormsModule, AppHeaderModule, MaterialModule, FlexLayoutModule
   ],
   exports:[AlbumListComponent, AlbumDetailComponent, AlbumCreateComponent, AlbumEditComponent, AlbumJoinCancionComponent]
 })

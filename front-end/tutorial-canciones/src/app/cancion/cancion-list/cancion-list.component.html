@@ -1,38 +1,49 @@
-<app-header></app-header>
 <div class="container my-4">
     <div class="row">
-      <div class="col-4">
-        <div class="card">
-          <div class="card-header">
-            <div class="row">
-              <div class="col-10 text-center">
-                <label class="fs-4">Canciones</label>
-              </div>
-              <div class="col-2 text-center">
-                <button type="button" class="my-1 btn btn-outline-primary btn-circle" (click)="irCrearCancion()"><i class="bi bi-plus-lg"></i></button>
-              </div>
-            </div>
-          </div>
-          <div class="card-body">
-  
-            <div class="input-group my-2">
-              <input #busqueda type="search" class="form-control" placeholder="Buscar canciones" aria-label="Search" (keyup)="buscarCancion(busqueda.value)">
-            </div>
-  
-            <table class="table table-hover mb-0" aria-describedby="colecName">
-              <tbody>
-                  <tr *ngFor="let cancion of mostrarCanciones; index as i" (click)="onSelect(cancion, i)" [ngClass]="{'selected': i === indiceSeleccionado}">
-                    <td>{{cancion.titulo}}</td>
-                    <td>{{cancion.minutos}}:{{cancion.segundos}}</td>
-                  </tr>
-              </tbody>
-            </table>
-            
-          </div>
+        <div class="col-4">
+
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>
+                        <div class="row">
+                            <div class="col-12 text-center mb-2">
+                                <label class="fs-4">Canciones</label>
+                                <button type="button" class="my-1 btn btn-outline-primary btn-circle ms-3 me-2" (click)="irCrearCancion()"><i class="bi bi-plus-lg"></i></button>
+                            </div>
+                        </div>
+                    </mat-card-title>
+
+                </mat-card-header>
+
+                <mat-card-content>
+                    <div class="input-group my-2">
+                        <input #busqueda type="search" class="form-control" placeholder="Buscar canciones" aria-label="Search" (keyup)="buscarCancion(busqueda.value)">
+                    </div>
+
+                    <table mat-table [dataSource]="mostrarCanciones" class="mat-elevation-z8" summary="Lista de albumes" aria-describedby="colecName">
+
+                        <ng-container matColumnDef="titulo">
+                            <th mat-header-cell *matHeaderCellDef scope="col"> Canción </th>
+                            <td mat-cell *matCellDef="let element" scope="row"> {{element.titulo}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="duracion">
+                            <th mat-header-cell *matHeaderCellDef scope="col"> Duración </th>
+                            <td mat-cell *matCellDef="let element" scope="row"> {{element.minutos}}:{{element.segundos}} </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;; let i = index" [ngClass]="{'selected': i === indiceSeleccionado}" (click)="onSelect(row,i)"></tr>
+
+                    </table>
+                </mat-card-content>
+
+            </mat-card>
+
+
         </div>
-      </div>
-      <div class="col-8">
-        <app-cancion-detail (deleteCancion)="eliminarCancion()" [cancion]="cancionSeleccionada"></app-cancion-detail>
-      </div>
+        <div class="col-8">
+            <app-cancion-detail (deleteCancion)="eliminarCancion()" [cancion]="cancionSeleccionada"></app-cancion-detail>
+        </div>
     </div>
-  </div>
+</div>

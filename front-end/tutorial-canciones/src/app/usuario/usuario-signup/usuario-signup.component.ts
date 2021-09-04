@@ -36,7 +36,8 @@ export class UsuarioSignupComponent implements OnInit {
     this.usuarioService.userSignUp(this.usuarioForm.get('nombre')?.value, this.usuarioForm.get('password')?.value)
     .subscribe(res => {
       const decodedToken = this.helper.decodeToken(res.token);
-      this.router.navigate([`/albumes/${decodedToken.sub}/${res.token}`])
+      //this.router.navigate([`/albumes/${decodedToken.sub}/${res.token}`])
+      this.router.navigate([/ionic/])
       this.showSuccess()
     },
     error => {
@@ -50,6 +51,15 @@ export class UsuarioSignupComponent implements OnInit {
 
   showSuccess() {
     this.toastr.success(`Se ha registrado exitosamente`, "Registro exitoso");
+  }
+
+  campoEsValido( campo: string ) {
+    return this.usuarioForm.controls[campo].errors 
+            && this.usuarioForm.controls[campo].touched;
+  }
+
+  iniciarSesion(){
+    this.router.navigate(['/auth']);
   }
 
 }

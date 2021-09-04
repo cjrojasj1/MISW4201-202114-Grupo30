@@ -24,6 +24,7 @@ export class AlbumListComponent implements OnInit {
   mostrarAlbumes: Array<Album>
   albumSeleccionado: Album
   indiceSeleccionado: number
+  displayedColumns: string[] = ['titulo', 'anio'];
 
   ngOnInit() {
     if(!parseInt(this.router.snapshot.params.userId) || this.router.snapshot.params.userToken === " "){
@@ -94,7 +95,7 @@ export class AlbumListComponent implements OnInit {
   }
 
   irCrearAlbum(){
-    this.routerPath.navigate([`/albumes/create/${this.userId}/${this.token}`])
+    this.routerPath.navigate([`/ionic/albumes/create/${this.userId}/${this.token}`])
   }
 
   eliminarAlbum(){

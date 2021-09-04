@@ -61,7 +61,7 @@ export class AlbumEditComponent implements OnInit {
 
   cancelCreate(){
     this.albumForm.reset()
-    this.routerPath.navigate([`/albumes/${this.userId}/${this.token}`])
+    this.routerPath.navigate([`/ionic/albumes/${this.userId}/${this.token}`])
   }
 
   editarAlbum(newAlbum: Album){
@@ -71,7 +71,7 @@ export class AlbumEditComponent implements OnInit {
     .subscribe(album => {
       this.showSuccess(album)
       this.albumForm.reset()
-      this.routerPath.navigate([`/albumes/${this.userId}/${this.token}`])
+      this.routerPath.navigate([`/ionic/albumes/${this.userId}/${this.token}`])
     },
     error=> {
       if(error.statusText === "UNAUTHORIZED"){

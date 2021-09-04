@@ -12,6 +12,8 @@ export class AlbumDetailComponent implements OnInit {
   @Input() album: Album;
   @Output() deleteAlbum = new EventEmitter();
   
+  
+  displayedColumns: string[] = ['index', 'name', 'duracion', 'interprete'];
   userId: number;
   token: string;
 
@@ -26,11 +28,11 @@ export class AlbumDetailComponent implements OnInit {
   }
 
   goToEdit(){
-    this.routerPath.navigate([`/albumes/edit/${this.album.id}/${this.userId}/${this.token}`])
+    this.routerPath.navigate([`/ionic/albumes/edit/${this.album.id}/${this.userId}/${this.token}`])
   }
 
   goToJoinCancion(){
-    this.routerPath.navigate([`/albumes/join/${this.album.id}/${this.userId}/${this.token}`])
+    this.routerPath.navigate([`/ionic/albumes/join/${this.album.id}/${this.userId}/${this.token}`])
   }
   
   eliminarAlbum(){

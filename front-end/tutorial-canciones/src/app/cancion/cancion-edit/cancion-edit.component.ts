@@ -47,7 +47,7 @@ export class CancionEditComponent implements OnInit {
 
   cancelCreate(){
     this.cancionForm.reset()
-    this.routerPath.navigate([`/canciones/${this.userId}/${this.token}`])
+    this.routerPath.navigate([`/ionic/canciones/${this.userId}/${this.token}`])
   }
 
   editarCancion(newCancion: Cancion){
@@ -57,7 +57,7 @@ export class CancionEditComponent implements OnInit {
     .subscribe(cancion => {
       this.showSuccess(cancion)
       this.cancionForm.reset()
-      this.routerPath.navigate([`/canciones/${this.userId}/${this.token}`])
+      this.routerPath.navigate([`/ionic/canciones/${this.userId}/${this.token}`])
     },
     error=> {
       if(error.statusText === "UNAUTHORIZED"){

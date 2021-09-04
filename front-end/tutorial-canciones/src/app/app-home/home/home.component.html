@@ -1,0 +1,64 @@
+<mat-sidenav-container fullscreen>
+
+    <mat-sidenav #sidenav>
+
+        <mat-toolbar color="primary">
+            <span>Menú</span>
+            <span class="spacer"></span>
+            <button mat-icon-button (click)="sidenav.toggle()">
+                <mat-icon>menu</mat-icon>
+            </button>
+
+        </mat-toolbar>
+
+        <mat-nav-list title="menu">
+            <a [routerLink]="['/ionic/albumes/', session.id, session.token ]" mat-list-item (click)="sidenav.toggle()" id="btn_albumes">
+                <mat-icon mat-list-icon>label</mat-icon>
+                <span>Albumes</span>
+            </a>
+            <a [routerLink]="['/ionic/canciones/', session.id, session.token ]" mat-list-item (click)="sidenav.toggle()" id="btn_canciones">
+                <mat-icon mat-list-icon>label</mat-icon>
+                <span>Canciones</span>
+            </a>
+        </mat-nav-list>
+
+    </mat-sidenav>
+
+    <mat-toolbar>
+        <button mat-icon-button (click)="sidenav.toggle()" aria-label="menu" id="btn_menu" *ngIf="session.nombre">
+            <mat-icon>menu</mat-icon>
+        </button>
+        <h3 style="text-align:center">
+            <img src="https://cdn.pixabay.com/photo/2017/04/19/10/24/vinyl-2241789_960_720.png" style="height:2rem;" alt="Fancollector" /> Ionic
+        </h3>
+        <button id="btn_signup" routerLink="/" routerLinkActive="is-active" mat-button>Sobre nosotros</button>
+        <span class="spacer"></span>
+
+        <div fxShow="true" fxHide.lt-md="true">
+
+            <!-- The following menu items will be hidden on both SM and XS screen sizes -->
+            <span *ngIf="session.nombre" style="font-size: 14px;">{{session.nombre}}&nbsp; &nbsp; &nbsp;</span>
+            <button *ngIf="!session.nombre" id="btn_signin" routerLink="/auth/" routerLinkActive="is-active" mat-button>Ingresar</button>
+            <button *ngIf="!session.nombre" id="btn_signup" routerLink="/auth/signup" routerLinkActive="is-active" mat-button>Registrarse</button>
+            <a *ngIf="session.nombre">
+                <img src="/assets/images/notifications_active.png" alt="image">
+            </a>
+            <button *ngIf="session.nombre" id="btn_salir" mat-button (click)="cerrarSession()">
+                <mat-icon>logout</mat-icon>
+                Salir
+            </button>
+
+
+        </div>
+
+
+    </mat-toolbar>
+
+
+    <div class="container">
+        <router-outlet></router-outlet>
+    </div>
+
+    <app-footer></app-footer>
+
+</mat-sidenav-container>
