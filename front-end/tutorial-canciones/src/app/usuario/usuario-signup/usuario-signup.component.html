@@ -1,5 +1,5 @@
-<div fxLayout="row" fxLayoutAlign="center center" style="padding-top:100px;">
-    <mat-card fxFlex="35%">
+<div fxLayout="row" fxLayoutAlign="center center" fxLayoutAlign.sm="" fxLayoutAlign.xs="" style="padding-top:100px;">
+    <mat-card fxFlex="40%">
         <mat-card-title>Registro</mat-card-title>
 
         <mat-card-content fxLayout="column">
@@ -63,11 +63,9 @@
                         <mat-icon>account_circle</mat-icon>
                         Registrarse
                     </button>
-
-                    <button mat-raised-button (click)="iniciarSesion()">
-                      <mat-icon>lock_open</mat-icon>
-                      ¿Ya tienes cuenta? Inicia sesión
-                  </button>
+                </div>
+                <div class="col-12 text-center mt-2">
+                    <p>¿Ya tienes cuenta? <a href="/auth/signin">Inicia sesión</a></p>
                 </div>
 
             </form>

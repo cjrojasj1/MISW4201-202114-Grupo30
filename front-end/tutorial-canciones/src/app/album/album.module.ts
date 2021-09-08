@@ -9,10 +9,11 @@ import { AppHeaderModule } from '../app-header/app-header.module';
 import { AlbumJoinCancionComponent } from './album-join-cancion/album-join-cancion.component';
 import { MaterialModule } from '../material/material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { DuracionPipe } from './pipes/duracion.pipe';
 
 
 @NgModule({
-  declarations: [AlbumListComponent, AlbumDetailComponent, AlbumCreateComponent, AlbumEditComponent, AlbumJoinCancionComponent],
+  declarations: [AlbumListComponent, AlbumDetailComponent, AlbumCreateComponent, AlbumEditComponent, AlbumJoinCancionComponent, DuracionPipe],
   imports: [
     CommonModule, ReactiveFormsModule, AppHeaderModule, MaterialModule, FlexLayoutModule
   ],
