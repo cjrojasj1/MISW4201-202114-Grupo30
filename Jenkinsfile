@@ -9,7 +9,7 @@ pipeline {
         stage('Checkout') { 
             steps {
                 scmSkip(deleteBuild: true, skipPattern:'.*\\[ci-skip\\].*')
-                git branch: 'main',  
+                git branch: 'develop',  
                 credentialsId: env.GIT_CREDENTIAL_ID,
                 url: 'https://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@github.com/MISW-4102-ProcesosDeDesarrolloAgil/' + env.GIT_REPO
             }
