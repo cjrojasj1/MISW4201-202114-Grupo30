@@ -33,7 +33,7 @@ export class AlbumEditComponent implements OnInit {
   ]
 
   constructor(
-    
+
     private albumService: AlbumService,
     private formBuilder: FormBuilder,
     private router: ActivatedRoute,

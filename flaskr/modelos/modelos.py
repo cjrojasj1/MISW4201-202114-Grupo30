@@ -42,7 +42,7 @@ class RecursoCompartido(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     tipo_recurso = db.Column(db.Enum(TipoRecurso))
     usuario_origen_id = db.Column(db.Integer)
-    usuario_destino_id = db.Column(db.Integer, db.ForeignKey("usuario.id"))
+    usuario_destino_id = db.Column(db.Integer)
     cancion_id = db.Column(db.Integer, db.ForeignKey("cancion.id"))
     album_id = db.Column(db.Integer, db.ForeignKey("album.id"))
 
@@ -51,7 +51,8 @@ class Usuario(db.Model):
     nombre = db.Column(db.String(50))
     contrasena = db.Column(db.String(50))
     albumes = db.relationship('Album', cascade='all, delete, delete-orphan')
-    compartidos = db.relationship('RecursoCompartido', backref='recurso_compartido')
+    # Todo: validar relacion por id de usuario
+    # compartidos = db.relationship('RecursoCompartido', backref='recurso_compartido')
 
 class EnumADiccionario(fields.Field):
     def _serialize(self, value, attr, obj, **kwargs):

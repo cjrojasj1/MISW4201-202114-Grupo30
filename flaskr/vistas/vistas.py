@@ -158,6 +158,7 @@ class VistaRecursosCompartidos(Resource):
     def get(self):
         return [recurso_compartido_schema.dump(rc) for rc in RecursoCompartido.query.all()]
 
+    @jwt_required()
     def post(self):
 
         usuario_destino = request.json["usuario_destino"]
@@ -191,7 +192,7 @@ class VistaRecursosCompartidos(Resource):
         for ud in usuarios_destinos:
             usuario_d = Usuario.query.filter(Usuario.nombre == ud).first()
             if usuario_d is None:
-                return "El usuario destino " + Usuario.nombre + " no existe", 400
+                return 'El usuario destino ' + ud + ' no existe', 400
 
             recurso_compartido = RecursoCompartido(
                 tipo_recurso= tipo_recurso,
@@ -203,13 +204,11 @@ class VistaRecursosCompartidos(Resource):
             else:
                 recurso_compartido.cancion_id = id_recurso
 
-        try:
-            db.session.commit()
-            db.session.add(recurso_compartido)
-            return "Recurso compartido correctamente"
-        except IntegrityError:
-            db.session.rollback()
-            return "Error", 400
+
+        db.session.add(recurso_compartido)
+        db.session.commit()
+        return recurso_compartido_schema.dump(recurso_compartido)
+
 
 class VistaRecursoCompartido(Resource):
 

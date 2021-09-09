@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from "ngx-toastr";
 import { UsuarioService } from 'src/app/usuario/usuario.service';
 import { Album, Cancion } from '../album';
+import { AlbumShareComponent } from '../album-share/album-share.component';
 import { AlbumService } from '../album.service';
 
 @Component({
@@ -17,16 +19,18 @@ export class AlbumListComponent implements OnInit {
     private router: ActivatedRoute,
     private toastr: ToastrService,
     private routerPath: Router,
-    private usuarioServicio: UsuarioService
+    private usuarioServicio: UsuarioService,
+    public dialog: MatDialog
   ) { }
-  
+
   userId: number
   token: string
   albumes: Array<Album>
   mostrarAlbumes: Array<Album>
   albumSeleccionado: Album
   indiceSeleccionado: number
-  displayedColumns: string[] = ['titulo', 'anio'];
+  displayedColumns: string[] = ['titulo', 'anio', 'share'];
+  users_names: string;
 
   ngOnInit() {
     if(!parseInt(this.router.snapshot.params.userId) || this.router.snapshot.params.userToken === " "){
@@ -63,7 +67,7 @@ export class AlbumListComponent implements OnInit {
         this.showError("Ha ocurrido un error. " + error.message)
       }
     })
-    
+
   }
 
   onSelect(a: Album, index: number){
@@ -141,5 +145,19 @@ export class AlbumListComponent implements OnInit {
     this.usuarioServicio.cerrarSession();
     this.routerPath.navigate(['/auth']);
   }
+
+  openDialog(album: Album): void {
+    const dialogRef = this.dialog.open(AlbumShareComponent, {
+      width: '250px',
+      data: {
+        users_names: this.users_names,
+        album_id: album.id,
+        titulo: album.titulo,
+        userId: this.userId,
+        token: this.token
+      }
+    });
+  }
+
 
 }
