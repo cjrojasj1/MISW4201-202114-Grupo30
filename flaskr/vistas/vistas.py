@@ -183,7 +183,7 @@ class VistaRecursosCompartidos(Resource):
     def get(self):
         return [recurso_compartido_schema.dump(rc) for rc in RecursoCompartido.query.all()]
 
-    @jwt_required()
+    # @jwt_required()
     def post(self):
 
         usuario_destino = request.json["usuario_destino"]
