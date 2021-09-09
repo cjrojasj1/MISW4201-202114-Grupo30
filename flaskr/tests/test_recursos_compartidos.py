@@ -1,8 +1,7 @@
 from flaskr.tests import BaseTestClass
 import unittest
 import json
-from app import app, db
-from flask import request
+from ..app import app
 
 ROUTE_POST = '/recurso/compartido'
 class RecursosCompartidosTestCase(BaseTestClass):
@@ -17,7 +16,7 @@ class RecursosCompartidosTestCase(BaseTestClass):
                     id_recurso= 3,
                     tipo_recurso="ALBUM"
                 )),
-                content_type='application/json'
+                content_type='application/json', follow_redirects=True
             )
             self.assertEqual(
                 result.data,
@@ -34,7 +33,7 @@ class RecursosCompartidosTestCase(BaseTestClass):
                     id_recurso= 3,
                     tipo_recurso="ALBUM"
                 )),
-                content_type='application/json'
+                content_type='application/json', follow_redirects=True
             )
             self.assertEqual(
                 result.data,
@@ -51,7 +50,7 @@ class RecursosCompartidosTestCase(BaseTestClass):
                     id_recurso= 3,
                     tipo_recurso=None
                 )),
-                content_type='application/json'
+                content_type='application/json', follow_redirects=True
             )
             self.assertEqual(
                 result.data,
@@ -68,7 +67,7 @@ class RecursosCompartidosTestCase(BaseTestClass):
                     id_recurso= None,
                     tipo_recurso="ALBUM"
                 )),
-                content_type='application/json'
+                content_type='application/json', follow_redirects=True
             )
             self.assertEqual(
                 result.data,
@@ -85,7 +84,7 @@ class RecursosCompartidosTestCase(BaseTestClass):
                     id_recurso= 3,
                     tipo_recurso="ALBUM"
                 )),
-                content_type='application/json'
+                content_type='application/json', follow_redirects=True
             )
             self.assertEqual(
                 result.data,
@@ -102,7 +101,7 @@ class RecursosCompartidosTestCase(BaseTestClass):
                     id_recurso= 3,
                     tipo_recurso="ALBUM"
                 )),
-                content_type='application/json'
+                content_type='application/json', follow_redirects=True
             )
             self.assertEqual(
                 result.data,
@@ -119,7 +118,7 @@ class RecursosCompartidosTestCase(BaseTestClass):
                     id_recurso= 3,
                     tipo_recurso="ALBUM2"
                 )),
-                content_type='application/json'
+                content_type='application/json', follow_redirects=True
             )
             self.assertEqual(
                 result.data,
