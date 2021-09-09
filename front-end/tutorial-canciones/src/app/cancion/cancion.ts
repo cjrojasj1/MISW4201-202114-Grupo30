@@ -7,6 +7,7 @@ export class Cancion {
     usuario: number;
     albumes: Array<any>
     compartidos: Array<any>;
+    descripcion: string;
 
     constructor(
         id: number,

@@ -17,7 +17,7 @@ export class CancionDetailComponent implements OnInit {
   userId: number;
   token: string;
   displayedColumns: string[] = ['titulo', 'anio', 'medio'];
-  compartidos: Array<Usuario>
+  mostrarCompartidosCancion: Array<Usuario>
   displayedColumnsCompartidos: string[] = ['index', 'nombre'];
 
   constructor(
@@ -41,23 +41,16 @@ export class CancionDetailComponent implements OnInit {
   }
 
   getUsuariosCompartidos() {
-    let f_compartidos: Array<any> = []
-    let u_compartidos: Array<any> = []
-    this.cancionService.getUsuariosCompartidos()
+    if (this.cancion !== undefined) {
+      this.cancionService.getUsuariosCompartidos(this.cancion.id)
       .subscribe(compartidos => {
-        compartidos.map(c => {
-          // Todo: no mostrar el usuario actual
-          // if (!cancionesAlbum.includes(c.id)) {
-          //   cancionesNoAgregadas.push(c)
-          // }
-
-          f_compartidos.push(c)
-        })
+        this.mostrarCompartidosCancion = compartidos
+      },
+      error => {
+        console.log(error)
       })
+    }
 
-      console.log(f_compartidos)
-
-    this.compartidos = f_compartidos.map(t=>t.usuario_destino_id)
   }
 
 }

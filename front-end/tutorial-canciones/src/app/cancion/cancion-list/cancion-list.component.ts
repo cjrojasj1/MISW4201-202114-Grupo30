@@ -28,7 +28,7 @@ export class CancionListComponent implements OnInit {
   canciones: Array<Cancion>
   mostrarCanciones: Array<Cancion>
   cancionSeleccionada: Cancion
-  indiceSeleccionado: number = 0
+  indiceSeleccionado: number
   displayedColumns: string[] = ['titulo', 'duracion', 'share'];
   users_names: string;
 
@@ -49,22 +49,38 @@ export class CancionListComponent implements OnInit {
     .subscribe(canciones => {
       this.canciones = canciones
       this.mostrarCanciones = canciones
-      this.onSelect(this.mostrarCanciones[0], 0)
+      if(canciones.length>0){
+        this.onSelect(this.mostrarCanciones[0], 0)
+      }
+    },
+    error => {
+      console.log(error)
+      if(error.statusText === "UNAUTHORIZED"){
+        this.showWarning("Su sesión ha caducado, por favor vuelva a iniciar sesión.")
+        this.cerrarSession();
+      }
+      else if(error.statusText === "UNPROCESSABLE ENTITY"){
+        this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
+        this.cerrarSession();
+      }
+      else{
+        this.showError("Ha ocurrido un error. " + error.message)
+      }
     })
   }
 
   onSelect(cancion: Cancion, indice: number){
-    //TO DO: solo si la cancion es propia
-
-    this.indiceSeleccionado = indice
-    this.cancionSeleccionada = cancion
-    this.cancionService.getAlbumesCancion(cancion.id)
-    .subscribe(albumes => {
-      this.cancionSeleccionada.albumes = albumes
-    },
-    error => {
-      this.showError(`Ha ocurrido un error: ${error.message}`)
-    })
+    if (cancion.descripcion === "True") {
+      this.indiceSeleccionado = indice
+      this.cancionSeleccionada = cancion
+      this.cancionService.getAlbumesCancion(cancion.id)
+      .subscribe(albumes => {
+        this.cancionSeleccionada.albumes = albumes
+      },
+      error => {
+        this.showError(`Ha ocurrido un error: ${error.message}`)
+      })
+    }
 
   }
 
@@ -91,6 +107,10 @@ export class CancionListComponent implements OnInit {
 
   irCrearCancion(){
     this.routerPath.navigate([`/ionic/canciones/create/${this.userId}/${this.token}`])
+  }
+
+  showWarning(warning: string){
+    this.toastr.warning(warning, "Error de autenticación")
   }
 
   showError(error: string){

@@ -67,8 +67,8 @@ export class CancionService {
       {headers: headers})
   }
 
-  getUsuariosCompartidos(): Observable<Usuario[]>{
-    return this.http.get<Usuario[]>(`${this.backUrl}/recurso/compartido`)
+  getUsuariosCompartidos(idCancion: number): Observable<any[]>{
+    return this.http.get<any[]>(`${this.backUrl}/recurso/cancion/${idCancion}/usuario`)
   }
 
 }

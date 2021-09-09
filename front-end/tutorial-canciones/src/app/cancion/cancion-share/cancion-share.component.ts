@@ -36,7 +36,8 @@ export class CancionShareComponent implements OnInit {
   }
 
   shareCancion() {
-      this.cancionService.compartirCancion(this.data.cancion_id, this.data.users_names, this.data.userId, this.data.token)
+    if (this.data.users_names) {
+    this.cancionService.compartirCancion(this.data.cancion_id, this.data.users_names, this.data.userId, this.data.token)
       .subscribe(cancion => {
         this.showSuccess(cancion)
         this.routerPath.navigate([`/ionic/canciones/${this.userId}/${this.token}`])
@@ -44,7 +45,7 @@ export class CancionShareComponent implements OnInit {
         error => {
           console.log(error)
           if (error.error) {
-            this.showError(error.error)
+            this.showError(error.error + " No se pudo completar el proceso de compartir.")
             this.routerPath.navigate([`/ionic/canciones/${this.userId}/${this.token}`])
           }
           else if (error.statusText === "UNAUTHORIZED") {
@@ -59,6 +60,11 @@ export class CancionShareComponent implements OnInit {
             this.showError("Ha ocurrido un error. " + error.message)
           }
         })
+      }
+      else {
+        this.showError("El nombre de usuario es requerido.")
+      }
+
   }
 
   cerrarSession() {
