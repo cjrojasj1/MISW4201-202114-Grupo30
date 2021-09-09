@@ -1,4 +1,5 @@
 from flask import request
+from sqlalchemy.orm import query
 from flaskr.modelos.modelos import db, Cancion, CancionSchema, Usuario, UsuarioSchema, Album, AlbumSchema, RecursoCompartido, RecursoCompartidoSchema
 from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
@@ -17,15 +18,15 @@ class VistaCancionesUsuario(Resource):
         nueva_cancion = Cancion(titulo=request.json["titulo"], minutos=request.json["minutos"], segundos=request.json["segundos"], interprete=request.json["interprete"])
         usuario = Usuario.query.get_or_404(id_usuario)
         usuario.canciones.append(nueva_cancion)
-              
+
         db.session.commit()
         return cancion_schema.dump(nueva_cancion)
 
     @jwt_required()
     def get(self, id_usuario):
         usuario = Usuario.query.get_or_404(id_usuario)
-        return [cancion_schema.dump(ca) for ca in usuario.canciones] 
-        
+        return [cancion_schema.dump(ca) for ca in usuario.canciones]
+
 class VistaCancion(Resource):
 
     def get(self, id_cancion):
@@ -79,7 +80,7 @@ class VistaLogIn(Resource):
         usuario = Usuario.query.filter(Usuario.nombre == request.json["nombre"], Usuario.contrasena == request.json["contrasena"]).first()
         db.session.commit()
         if usuario is None:
-            return "El usuario no existe", 400
+            return "El usuario no existe.", 400
         else:
             token_de_acceso = create_access_token(identity = usuario.id)
             return {"mensaje":"Inicio de sesión exitoso", "token": token_de_acceso}
@@ -100,11 +101,26 @@ class VistaAlbumesUsuario(Resource):
 
         return album_schema.dump(nuevo_album)
 
-    @jwt_required()
+    # @jwt_required()
     def get(self, id_usuario):
         usuario = Usuario.query.get_or_404(id_usuario)
-        return [album_schema.dump(al) for al in usuario.albumes]
+        propios = []
+        for a in usuario.albumes:
+            a.descripcion = True
+            propios.append(a)
 
+        compartidos = []
+        for c in usuario.compartidos:
+            ac = Album.query.filter(Album.id == c.album.id).first()
+            ac.descripcion = False
+            compartidos.append(ac)
+
+        return [album_schema.dump(al) for al in propios + compartidos]
+
+
+class VistaUsuario(Resource):
+    def get(self, id_usuario):
+        return usuario_schema.dump(Usuario.query.get_or_404(id_usuario))
 class VistaCancionesAlbum(Resource):
 
     def post(self, id_album):
@@ -225,3 +241,12 @@ class VistaRecursoCompartido(Resource):
         db.session.delete(recurso_compartido)
         db.session.commit()
         return '',204
+class VistaAlbumUsuariosCompartidos(Resource):
+
+    def get(self, id_album):
+        recurso_compartido = RecursoCompartido.query.filter(RecursoCompartido.album_id == id_album).group_by(RecursoCompartido.usuario_destino_id).all()
+        usuarios = []
+        for rc in recurso_compartido:
+            u = Usuario.query.filter(Usuario.id == rc.usuario_destino_id).first()
+            usuarios.append(u)
+        return [usuario_schema.dump(u) for u in usuarios]

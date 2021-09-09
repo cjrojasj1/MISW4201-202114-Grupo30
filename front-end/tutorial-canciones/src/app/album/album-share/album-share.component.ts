@@ -39,29 +39,33 @@ export class AlbumShareComponent implements OnInit {
   }
 
   shareAlbum() {
-    this.albumService.compartirAlbum(this.data.album_id, this.data.users_names, this.data.userId, this.data.token)
-      .subscribe(album => {
-        this.showSuccess(album)
-        this.routerPath.navigate([`/ionic/albumes/${this.userId}/${this.token}`])
-      },
-        error => {
-          console.log(error)
-          if (error.error) {
-            this.showError(error.error)
-            this.routerPath.navigate([`/ionic/albumes/${this.userId}/${this.token}`])
-          }
-          else if (error.statusText === "UNAUTHORIZED") {
-            this.showWarning("Su sesión ha caducado, por favor vuelva a iniciar sesión.")
-            this.cerrarSession();
-          }
-          else if (error.statusText === "UNPROCESSABLE ENTITY") {
-            this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
-            this.cerrarSession();
-          }
-          else {
-            this.showError("Ha ocurrido un error. " + error.message)
-          }
-        })
+    if (this.data.users_names) {
+      this.albumService.compartirAlbum(this.data.album_id, this.data.users_names, this.data.userId, this.data.token)
+        .subscribe(album => {
+          this.showSuccess(album)
+          this.routerPath.navigate([`/ionic/albumes/${this.userId}/${this.token}`])
+        },
+          error => {
+            if (error.error) {
+              this.showError(error.error + " No se pudo completar el proceso de compartir.")
+              this.routerPath.navigate([`/ionic/albumes/${this.userId}/${this.token}`])
+            }
+            else if (error.statusText === "UNAUTHORIZED") {
+              this.showWarning("Su sesión ha caducado, por favor vuelva a iniciar sesión.")
+              this.cerrarSession();
+            }
+            else if (error.statusText === "UNPROCESSABLE ENTITY") {
+              this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
+              this.cerrarSession();
+            }
+            else {
+              this.showError("Ha ocurrido un error. " + error.message)
+            }
+          })
+      }
+      else {
+        this.showError("El nombre de usuario es requerido.")
+      }
   }
 
   cerrarSession() {

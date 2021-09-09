@@ -71,16 +71,18 @@ export class AlbumListComponent implements OnInit {
   }
 
   onSelect(a: Album, index: number){
-    this.indiceSeleccionado = index
-    this.albumSeleccionado = a
-    this.albumService.getCancionesAlbum(a.id, this.token)
-    .subscribe(canciones => {
-      this.albumSeleccionado.canciones = canciones
-      this.albumSeleccionado.interpretes = this.getInterpretes(canciones)
-    },
-    error =>{
-      this.showError("Ha ocurrido un error, " + error.message)
-    })
+    if (a.descripcion === "True") {
+      this.indiceSeleccionado = index
+      this.albumSeleccionado = a
+      this.albumService.getCancionesAlbum(a.id, this.token)
+      .subscribe(canciones => {
+        this.albumSeleccionado.canciones = canciones
+        this.albumSeleccionado.interpretes = this.getInterpretes(canciones)
+      },
+      error =>{
+        this.showError("Ha ocurrido un error, " + error.message)
+      })
+    }
   }
 
   getInterpretes(canciones: Array<Cancion>): Array<string>{
