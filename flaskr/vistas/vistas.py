@@ -115,8 +115,12 @@ class VistaAlbumesUsuario(Resource):
             ac.descripcion = False
             compartidos.append(ac)
 
-        return [album_schema.dump(al) for al in propios + compartidos]
+        albumes = []
+        for album in propios + compartidos:
+            if album not in albumes:
+                albumes.append(album)
 
+        return [album_schema.dump(al) for al in albumes]
 
 class VistaUsuario(Resource):
     def get(self, id_usuario):

@@ -20,8 +20,8 @@ export class AlbumDetailComponent implements OnInit {
   userId: number;
   token: string;
   users_names: string;
-  compartidos: Array<Usuario>
-  displayedColumnsCompartidos: string[] = ['index', 'nombre'];
+  mostrarCompartidosAlbum: Array<Usuario>
+  displayedColumnsCompartidos: string[] = ['nombre'];
 
   constructor(
     private albumService: AlbumService,
@@ -33,9 +33,10 @@ export class AlbumDetailComponent implements OnInit {
   ngOnInit() {
     this.userId = parseInt(this.router.snapshot.params.userId)
     this.token = this.router.snapshot.params.userToken
-    this.getUsuariosCompartidos()
+  }
 
-    console.log(this.compartidos)
+  ngOnChanges() {
+    this.getUsuariosCompartidos()
   }
 
   goToEdit(){
@@ -63,23 +64,18 @@ export class AlbumDetailComponent implements OnInit {
     });
   }
 
-  getUsuariosCompartidos() {
-    let f_compartidos: Array<any> = []
-    let u_compartidos: Array<any> = []
-    this.albumService.getUsuariosCompartidos()
+  getUsuariosCompartidos():void {
+    if (this.album !== undefined) {
+      this.albumService.getUsuariosCompartidos(this.album.id)
       .subscribe(compartidos => {
-        compartidos.map(c => {
-          // Todo: no mostrar el usuario actual
-          // if (!cancionesAlbum.includes(c.id)) {
-          //   cancionesNoAgregadas.push(c)
-          // }
-
-          f_compartidos.push(c)
-        })
+        this.mostrarCompartidosAlbum = compartidos
+      },
+      error => {
+        console.log(error)
       })
+    }
 
-      console.log(f_compartidos)
-
-    this.compartidos = f_compartidos.map(t=>t.usuario_destino_id)
   }
+
+
 }
