@@ -36,7 +36,7 @@ export class UsuarioService {
                 this._session = new  UsuarioSesion(decodedToken.sub,nombre,resp.token);
                 console.log('SERVICIO' , this._session);
             }
-            
+
             )
         );
     }

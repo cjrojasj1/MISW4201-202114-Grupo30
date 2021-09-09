@@ -4,6 +4,7 @@ import { AlbumCreateComponent } from '../album/album-create/album-create.compone
 import { AlbumEditComponent } from '../album/album-edit/album-edit.component';
 import { AlbumJoinCancionComponent } from '../album/album-join-cancion/album-join-cancion.component';
 import { AlbumListComponent } from '../album/album-list/album-list.component';
+import { AlbumShareComponent } from '../album/album-share/album-share.component';
 import { CancionCreateComponent } from '../cancion/cancion-create/cancion-create.component';
 import { CancionEditComponent } from '../cancion/cancion-edit/cancion-edit.component';
 import { CancionListComponent } from '../cancion/cancion-list/cancion-list.component';
@@ -41,6 +42,10 @@ const routes: Routes = [
         component: AlbumJoinCancionComponent
       },
       {
+        path: 'albumes/share/:albumId/:usersNames/:userIdO/:userToken',
+        component: AlbumShareComponent
+      },
+      {
         path: 'canciones/:userId/:userToken',
         component: CancionListComponent
       },
@@ -56,7 +61,7 @@ const routes: Routes = [
         path:'**',
         redirectTo:'inicio'
       }
-    ]  
+    ]
   }
 ];
 
