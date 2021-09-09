@@ -1,6 +1,6 @@
 <div class="container my-4">
-    <div class="row">
-        <div class="col-4">
+    <div fxFlex fxLayout="row" fxLayout.sm="column" fxLayout.xs="column">
+        <div fxFlex="35%" fxFlex.lt-lg="" style="padding-bottom: 5%;">
 
             <mat-card>
                 <mat-card-header>
@@ -51,7 +51,7 @@
 
 
         </div>
-        <div class="col-8">
+        <div fxFlex="65%" fxFlex.lt-lg="" style="padding-left: 5%;">
             <app-album-detail (deleteAlbum)="eliminarAlbum()" [album]="albumSeleccionado"></app-album-detail>
         </div>
     </div>

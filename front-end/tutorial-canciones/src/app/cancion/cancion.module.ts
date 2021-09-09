@@ -8,10 +8,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CancionEditComponent } from './cancion-edit/cancion-edit.component';
 import { MaterialModule } from '../material/material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { DuracionPipe } from './pipes/duracion.pipe';
 
 
 @NgModule({
-  declarations: [CancionListComponent, CancionDetailComponent, CancionCreateComponent, CancionEditComponent],
+  declarations: [CancionListComponent, CancionDetailComponent, CancionCreateComponent, CancionEditComponent, DuracionPipe],
   imports: [
     CommonModule, AppHeaderModule, ReactiveFormsModule, MaterialModule, FlexLayoutModule
   ],

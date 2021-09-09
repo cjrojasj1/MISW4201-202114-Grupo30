@@ -1,6 +1,6 @@
 <mat-grid-list cols="1" *ngIf="!album; else divAlbum">
     <mat-grid-tile>
-        <mat-spinner></mat-spinner>
+
     </mat-grid-tile>
 </mat-grid-list>
 
@@ -27,11 +27,8 @@
         </div>
         <div class="col-6">
             <mat-card>
-                <mat-card-header>
-                    <mat-card-title> Intérpretes: </mat-card-title>
-                </mat-card-header>
-
                 <mat-card-content>
+                    <p><span class="fw-bold">Intérpretes:</span></p>
                     <ul class="mt-0">
                         <li class="my-1" *ngFor="let interprete of album?.interpretes">{{interprete}}</li>
                     </ul>
@@ -63,7 +60,7 @@
                 <!-- Weight Column -->
                 <ng-container matColumnDef="duracion">
                     <th mat-header-cell *matHeaderCellDef scope="col"> Duración </th>
-                    <td mat-cell *matCellDef="let element" scope="row"> {{element.minutos}}:{{element.segundos}} </td>
+                    <td mat-cell *matCellDef="let element" scope="row"> {{element.minutos | duracion}}:{{element.segundos | duracion }} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="interprete">

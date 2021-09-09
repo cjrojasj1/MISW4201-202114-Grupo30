@@ -16,6 +16,7 @@ class Cancion(db.Model):
     minutos = db.Column(db.Integer)
     segundos = db.Column(db.Integer)
     interprete = db.Column(db.String(128))
+    usuario = db.Column(db.Integer, db.ForeignKey("usuario.id"))
     albumes = db.relationship('Album', secondary = 'album_cancion', back_populates="canciones")
     compartidos = db.relationship('RecursoCompartido', backref='cancion')
 
@@ -53,6 +54,7 @@ class Usuario(db.Model):
     albumes = db.relationship('Album', cascade='all, delete, delete-orphan')
     # Todo: validar relacion por id de usuario
     # compartidos = db.relationship('RecursoCompartido', backref='recurso_compartido')
+    canciones = db.relationship('Cancion', cascade='all, delete, delete-orphan')
 
 class EnumADiccionario(fields.Field):
     def _serialize(self, value, attr, obj, **kwargs):
