@@ -4,6 +4,8 @@ import { CancionService } from '../cancion.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { UsuarioService } from 'src/app/usuario/usuario.service';
+import { MatDialog } from '@angular/material/dialog';
+import { CancionShareComponent } from '../cancion-share/cancion-share.component';
 
 @Component({
   selector: 'app-cancion-list',
@@ -17,7 +19,8 @@ export class CancionListComponent implements OnInit {
     private routerPath: Router,
     private router: ActivatedRoute,
     private toastr: ToastrService,
-    private usuarioServicio: UsuarioService
+    private usuarioServicio: UsuarioService,
+    public dialog: MatDialog
   ) { }
 
   userId: number
@@ -26,7 +29,8 @@ export class CancionListComponent implements OnInit {
   mostrarCanciones: Array<Cancion>
   cancionSeleccionada: Cancion
   indiceSeleccionado: number = 0
-  displayedColumns: string[] = ['titulo', 'duracion'];
+  displayedColumns: string[] = ['titulo', 'duracion', 'share'];
+  users_names: string;
 
   ngOnInit() {
     if(!parseInt(this.router.snapshot.params.userId) || this.router.snapshot.params.userToken === " "){
@@ -50,6 +54,8 @@ export class CancionListComponent implements OnInit {
   }
 
   onSelect(cancion: Cancion, indice: number){
+    //TO DO: solo si la cancion es propia
+
     this.indiceSeleccionado = indice
     this.cancionSeleccionada = cancion
     this.cancionService.getAlbumesCancion(cancion.id)
@@ -59,7 +65,7 @@ export class CancionListComponent implements OnInit {
     error => {
       this.showError(`Ha ocurrido un error: ${error.message}`)
     })
-    
+
   }
 
   buscarCancion(busqueda: string){
@@ -99,5 +105,19 @@ export class CancionListComponent implements OnInit {
     this.usuarioServicio.cerrarSession();
     this.routerPath.navigate(['/auth']);
   }
+
+  openDialog(cancion: Cancion): void {
+    const dialogRef = this.dialog.open(CancionShareComponent, {
+      width: '250px',
+      data: {
+        users_names: this.users_names,
+        cancion_id: cancion.id,
+        titulo: cancion.titulo,
+        userId: this.userId,
+        token: this.token
+      }
+    });
+  }
+
 
 }

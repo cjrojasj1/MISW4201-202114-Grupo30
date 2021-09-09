@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Cancion } from './cancion';
 import { Album } from '../album/album';
+import { Usuario } from '../usuario/usuario';
 
 @Injectable({
   providedIn: 'root'
@@ -15,16 +16,16 @@ export class CancionService {
 
   getCancionesAlbum(idAlbum: number, token: string): Observable<Cancion[]>{
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`       
+      'Authorization': `Bearer ${token}`
     })
     return this.http.get<Cancion[]>(`${this.backUrl}/album/${idAlbum}/canciones`, {headers: headers})
   }
 
   getCanciones(usuarioCancion: number, token: string): Observable<Cancion[]>{
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`       
+      'Authorization': `Bearer ${token}`
     })
-    
+
     return this.http.get<Cancion[]>(`${this.backUrl}/usuario/${usuarioCancion}/canciones`, {headers: headers})
   }
 
@@ -34,9 +35,9 @@ export class CancionService {
 
   crearCancion(idUsuario: number, token: string, cancion: Cancion):Observable<Cancion>{
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`       
+      'Authorization': `Bearer ${token}`
     })
-  
+
     return this.http.post<Cancion>(`${this.backUrl}/usuario/${idUsuario}/canciones`, cancion, {headers: headers})
   }
 
@@ -50,6 +51,24 @@ export class CancionService {
 
   eliminarCancion(cancionId: number): Observable<Cancion>{
     return this.http.delete<Cancion>(`${this.backUrl}/cancion/${cancionId}`)
+  }
+
+  compartirCancion(idCancion: number, idUsuarioD: string, idUsuario: number, token: string):Observable<Cancion>{
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    })
+    return this.http.post<Cancion>(`${this.backUrl}/recurso/compartido`,
+      {
+        "usuario_origen_id": idUsuario,
+        "usuario_destino": idUsuarioD,
+        "id_recurso": idCancion,
+        "tipo_recurso": "CANCION"
+      },
+      {headers: headers})
+  }
+
+  getUsuariosCompartidos(): Observable<Usuario[]>{
+    return this.http.get<Usuario[]>(`${this.backUrl}/recurso/compartido`)
   }
 
 }
