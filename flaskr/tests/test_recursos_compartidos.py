@@ -1,7 +1,7 @@
 from flaskr.tests import BaseTestClass
 import unittest
 import json
-from ..app import app
+from flaskr.app import app
 
 ROUTE_POST = '/recurso/compartido'
 class RecursosCompartidosTestCase(BaseTestClass):
