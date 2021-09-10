@@ -19,13 +19,34 @@ class VistaCancionesUsuario(Resource):
         usuario = Usuario.query.get_or_404(id_usuario)
         usuario.canciones.append(nueva_cancion)
 
-        db.session.commit()
+        try:
+            db.session.commit()
+        except IntegrityError:
+            db.session.rollback()
+            return 'El usuario ya tiene una cancion con dicho nombre',409
+    
         return cancion_schema.dump(nueva_cancion)
 
-    @jwt_required()
+    # @jwt_required()
     def get(self, id_usuario):
         usuario = Usuario.query.get_or_404(id_usuario)
-        return [cancion_schema.dump(ca) for ca in usuario.canciones]
+        propios = []
+        for c in usuario.canciones:
+            c.propia = 'True'
+            propios.append(c)
+
+        compartidos = []
+        for c in usuario.compartidos:
+            cc = Cancion.query.filter(Cancion.id == c.cancion.id).first()
+            cc.propia = 'False'
+            compartidos.append(cc)
+
+        canciones = []
+        for cancion in propios + compartidos:
+            if cancion not in canciones:
+                canciones.append(cancion)
+
+        return [cancion_schema.dump(ca) for ca in canciones]
 
 class VistaCancion(Resource):
 
@@ -249,6 +270,16 @@ class VistaAlbumUsuariosCompartidos(Resource):
 
     def get(self, id_album):
         recurso_compartido = RecursoCompartido.query.filter(RecursoCompartido.album_id == id_album).group_by(RecursoCompartido.usuario_destino_id).all()
+        usuarios = []
+        for rc in recurso_compartido:
+            u = Usuario.query.filter(Usuario.id == rc.usuario_destino_id).first()
+            usuarios.append(u)
+        return [usuario_schema.dump(u) for u in usuarios]
+
+class VistaCancionUsuariosCompartidos(Resource):
+
+    def get(self, id_cancion):
+        recurso_compartido = RecursoCompartido.query.filter(RecursoCompartido.cancion_id == id_cancion).group_by(RecursoCompartido.usuario_destino_id).all()
         usuarios = []
         for rc in recurso_compartido:
             u = Usuario.query.filter(Usuario.id == rc.usuario_destino_id).first()

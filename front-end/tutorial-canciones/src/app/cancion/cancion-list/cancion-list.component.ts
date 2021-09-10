@@ -27,7 +27,7 @@ export class CancionListComponent implements OnInit {
   token: string
   canciones: Array<Cancion>
   mostrarCanciones: Array<Cancion>
-  cancionSeleccionada: Cancion
+  cancionSeleccionada: any
   indiceSeleccionado: number
   displayedColumns: string[] = ['titulo', 'duracion', 'share'];
   users_names: string;
@@ -69,20 +69,19 @@ export class CancionListComponent implements OnInit {
     })
   }
 
-  onSelect(c: Cancion, indice: number){
-    //if (cancion.propia === "True") {
-      this.indiceSeleccionado = indice
-      console.log(c)
+  onSelect(c: Cancion, index: number){
+    console.log("Indice: " + index)
+    if (c.propia === "True") {
+      this.indiceSeleccionado = index
       this.cancionSeleccionada = c
       this.cancionService.getAlbumesCancion(c.id)
       .subscribe(albumes => {
-        //console.log(albumes)
-        //this.cancionSeleccionada.albumes = albumes
+        this.cancionSeleccionada.albumes = albumes
       },
       error => {
         this.showError(`Ha ocurrido un error: ${error.message}`)
       })
-    //}
+    }
 
   }
 
