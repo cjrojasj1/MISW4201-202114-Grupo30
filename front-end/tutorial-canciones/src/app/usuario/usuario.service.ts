@@ -6,6 +6,7 @@ import { JwtHelperService } from "@auth0/angular-jwt";
 
 
 import { UsuarioSesion } from './usuario-sesion';
+import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
     providedIn: 'root'
@@ -14,7 +15,7 @@ export class UsuarioService {
 
     helper = new JwtHelperService();
 
-    private backUrl: string = "http://localhost:5000"
+    private backUrl: string = environment.baseUrl
     private _session: UsuarioSesion|undefined;
 
     constructor(private http: HttpClient) { }

@@ -4,13 +4,14 @@ import { Observable } from 'rxjs';
 import { Album } from './album';
 import { Cancion } from '../cancion/cancion';
 import { Usuario } from '../usuario/usuario';
+import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AlbumService {
 
-  private backUrl: string = "http://localhost:5000"
+  private backUrl: string = environment.baseUrl
 
   constructor(private http: HttpClient) { }
 
