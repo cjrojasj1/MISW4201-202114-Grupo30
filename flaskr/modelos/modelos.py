@@ -19,6 +19,7 @@ class Cancion(db.Model):
     usuario = db.Column(db.Integer, db.ForeignKey("usuario.id"))
     albumes = db.relationship('Album', secondary = 'album_cancion', back_populates="canciones")
     compartidos = db.relationship('RecursoCompartido', backref='cancion')
+    propia = db.Column(db.String(5), default='True')
 
 class Medio(enum.Enum):
    DISCO = 1
