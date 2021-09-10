@@ -69,18 +69,20 @@ export class CancionListComponent implements OnInit {
     })
   }
 
-  onSelect(cancion: Cancion, indice: number){
-    if (cancion.descripcion === "True") {
+  onSelect(c: Cancion, indice: number){
+    //if (cancion.propia === "True") {
       this.indiceSeleccionado = indice
-      this.cancionSeleccionada = cancion
-      this.cancionService.getAlbumesCancion(cancion.id)
+      console.log(c)
+      this.cancionSeleccionada = c
+      this.cancionService.getAlbumesCancion(c.id)
       .subscribe(albumes => {
-        this.cancionSeleccionada.albumes = albumes
+        //console.log(albumes)
+        //this.cancionSeleccionada.albumes = albumes
       },
       error => {
         this.showError(`Ha ocurrido un error: ${error.message}`)
       })
-    }
+    //}
 
   }
 

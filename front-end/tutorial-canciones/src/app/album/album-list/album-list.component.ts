@@ -47,8 +47,10 @@ export class AlbumListComponent implements OnInit {
   getAlbumes():void{
     this.albumService.getAlbumes(this.userId, this.token)
     .subscribe(albumes => {
+      console.log(albumes)
       this.albumes = albumes
       this.mostrarAlbumes = albumes
+      console.log(albumes)
       if(albumes.length>0){
         this.onSelect(this.mostrarAlbumes[0], 0)
       }

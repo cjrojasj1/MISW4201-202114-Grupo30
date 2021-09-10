@@ -1,3 +1,5 @@
+import { Album } from "../album/album";
+
 export class Cancion {
     id: number;
     titulo: string;
@@ -5,9 +7,9 @@ export class Cancion {
     segundos: number;
     interprete: string;
     usuario: number;
-    albumes: Array<any>
+    albumes: Array<Album>;
     compartidos: Array<any>;
-    descripcion: string;
+    //propia: string;
 
     constructor(
         id: number,
@@ -16,16 +18,18 @@ export class Cancion {
         segundos: number,
         interprete: string,
         usuario: number,
-        albumes: Array<any>,
-        compartidos: Array<any>
+        albumes: Array<Album>,
+        compartidos: Array<any>/*
+        propia: string*/
     ){
         this.id = id,
         this.titulo = titulo,
         this.minutos = minutos,
         this.segundos = segundos,
-        this.interprete = interprete
+        this.interprete = interprete,
         this.usuario = usuario,
-        this.albumes = albumes
-        this.compartidos = compartidos
+        this.albumes = albumes,
+        this.compartidos = compartidos//,
+        //this.propia = propia
     }
 }
