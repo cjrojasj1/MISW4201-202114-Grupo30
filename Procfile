@@ -1,2 +1,2 @@
 web: gunicorn flaskr.app:app
-web: node server.js
+web2: node server.js
