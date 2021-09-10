@@ -27,7 +27,7 @@
                             <th mat-header-cell *matHeaderCellDef scope="col">
                                 Álbum </th>
                             <td mat-cell *matCellDef="let element" scope="row">
-                                <mat-icon *ngIf="element.descripcion === 'False'">send</mat-icon>
+                                <mat-icon *ngIf="element.propio === 0">send</mat-icon>
                                 {{element.titulo}} </td>
                         </ng-container>
 
@@ -39,7 +39,7 @@
                         <ng-container matColumnDef="share">
                             <th mat-header-cell *matHeaderCellDef scope="col">  </th>
                             <td mat-cell *matCellDef="let element" scope="row">
-                                <button *ngIf="element.descripcion === 'True'" type="button" class="btn btn-outline-info me-2" (click)="openDialog(element)" title="Compartir álbum"><i class="bi bi-share"></i></button>
+                                <button *ngIf="element.propio === 1" type="button" class="btn btn-outline-info me-2" (click)="openDialog(element)" title="Compartir álbum"><i class="bi bi-share"></i></button>
                             </td>
                         </ng-container>
 

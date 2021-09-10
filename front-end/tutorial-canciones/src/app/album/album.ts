@@ -11,6 +11,7 @@ export class Album {
     interpretes: Array<string>;
     canciones: Array<Cancion>;
     compartidos: Array<any>;
+    propio: number;
 
     constructor(
         id: number,
@@ -21,7 +22,8 @@ export class Album {
         usuario: number,
         interpretes: Array<string>,
         canciones: Array<Cancion>,
-        compartidos: Array<any>
+        compartidos: Array<any>,
+        propio: number
     ){
         this.id = id,
         this.titulo = titulo,
@@ -31,7 +33,8 @@ export class Album {
         this.usuario = usuario,
         this.interpretes = interpretes,
         this.canciones = canciones,
-        this.compartidos = compartidos
+        this.compartidos = compartidos,
+        this.propio = propio
     }
 }
 
