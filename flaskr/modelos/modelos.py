@@ -38,6 +38,7 @@ class Album(db.Model):
     usuario = db.Column(db.Integer, db.ForeignKey("usuario.id"))
     canciones = db.relationship('Cancion', secondary = 'album_cancion', back_populates="albumes")
     compartidos = db.relationship('RecursoCompartido', backref='album')
+    propio = db.Column(db.Integer)
 
 class RecursoCompartido(db.Model):
     id = db.Column(db.Integer, primary_key=True)

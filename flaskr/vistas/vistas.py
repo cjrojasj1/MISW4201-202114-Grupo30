@@ -89,7 +89,7 @@ class VistaAlbumesUsuario(Resource):
 
     @jwt_required()
     def post(self, id_usuario):
-        nuevo_album = Album(titulo=request.json["titulo"], anio=request.json["anio"], descripcion=request.json["descripcion"], medio=request.json["medio"])
+        nuevo_album = Album(titulo=request.json["titulo"], anio=request.json["anio"], descripcion=request.json["descripcion"], medio=request.json["medio"], propio=1)
         usuario = Usuario.query.get_or_404(id_usuario)
         usuario.albumes.append(nuevo_album)
 
@@ -106,13 +106,12 @@ class VistaAlbumesUsuario(Resource):
         usuario = Usuario.query.get_or_404(id_usuario)
         propios = []
         for a in usuario.albumes:
-            a.descripcion = True
             propios.append(a)
 
         compartidos = []
         for c in usuario.compartidos:
             ac = Album.query.filter(Album.id == c.album.id).first()
-            ac.descripcion = False
+            ac.propio = 0
             compartidos.append(ac)
 
         albumes = []
@@ -202,7 +201,7 @@ class VistaRecursosCompartidos(Resource):
 
         usuario_o = Usuario.query.filter(Usuario.id == usuario_origen_id).first()
         if usuario_o is None:
-            return "El usuario destino no existe", 400
+            return "El usuario origen no existe", 400
 
         if tipo_recurso == None:
             return "Error. El tipo de recurso no puede ser vacio", 400
@@ -217,7 +216,7 @@ class VistaRecursosCompartidos(Resource):
         for ud in usuarios_destinos:
             usuario_d = Usuario.query.filter(Usuario.nombre == ud).first()
             if usuario_d is None:
-                return 'El usuario destino ' + ud + ' no existe', 400
+                return 'No se puede compartir el álbum porque una o más personas no se encuentran registradas en Ionic.', 400
 
             recurso_compartido = RecursoCompartido(
                 tipo_recurso= tipo_recurso,

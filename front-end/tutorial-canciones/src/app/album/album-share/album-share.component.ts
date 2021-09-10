@@ -47,7 +47,7 @@ export class AlbumShareComponent implements OnInit {
         },
           error => {
             if (error.error) {
-              this.showError(error.error + " No se pudo completar el proceso de compartir.")
+              this.showError(error.error)
               this.routerPath.navigate([`/ionic/albumes/${this.userId}/${this.token}`])
             }
             else if (error.statusText === "UNAUTHORIZED") {
@@ -64,7 +64,7 @@ export class AlbumShareComponent implements OnInit {
           })
       }
       else {
-        this.showError("El nombre de usuario es requerido.")
+        this.showError("Antes de compartir es necesario mínimo escoger un usuario.")
       }
   }
 

@@ -71,7 +71,7 @@ export class AlbumListComponent implements OnInit {
   }
 
   onSelect(a: Album, index: number){
-    if (a.descripcion === "True") {
+    if (a.propio === 1) {
       this.indiceSeleccionado = index
       this.albumSeleccionado = a
       this.albumService.getCancionesAlbum(a.id, this.token)
