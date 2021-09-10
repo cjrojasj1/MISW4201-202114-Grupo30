@@ -9,50 +9,20 @@ import { CancionCreateComponent } from './cancion/cancion-create/cancion-create.
 import { CancionEditComponent } from './cancion/cancion-edit/cancion-edit.component';
 import { AlbumJoinCancionComponent } from './album/album-join-cancion/album-join-cancion.component';
 import { UsuarioSignupComponent } from './usuario/usuario-signup/usuario-signup.component';
+import { HomeComponent } from './app-home/home/home.component';
 
 const routes: Routes = [
   {
-    path: '',
-    component: UsuarioLoginComponent,
-    pathMatch: 'full'
+    path: 'auth',
+    loadChildren: () => import('./usuario/usuario.module').then( m => m.UsuarioModule ),
   },
   {
-    path: 'signin',
-    component: UsuarioLoginComponent,
-    pathMatch: 'full'
+    path: 'ionic',
+    loadChildren: () => import('./app-home/app-home.module').then( m => m.AppHomeModule ),
   },
   {
-    path: 'signup',
-    component: UsuarioSignupComponent,
-    pathMatch: 'full'
-  },
-  {
-    path: 'albumes/:userId/:userToken',
-    component: AlbumListComponent
-  },
-  {
-    path: 'albumes/create/:userId/:userToken',
-    component: AlbumCreateComponent
-  },
-  {
-    path: 'albumes/edit/:albumId/:userId/:userToken',
-    component: AlbumEditComponent
-  },
-  {
-    path: 'albumes/join/:albumId/:userId/:userToken',
-    component: AlbumJoinCancionComponent
-  },
-  {
-    path: 'canciones/:userId/:userToken',
-    component: CancionListComponent
-  },
-  {
-    path: 'canciones/create/:userId/:userToken',
-    component: CancionCreateComponent
-  },
-  {
-    path: 'canciones/edit/:cancionId/:userId/:userToken',
-    component: CancionEditComponent
+    path: '**',
+    redirectTo: 'ionic'
   }
 ];
 

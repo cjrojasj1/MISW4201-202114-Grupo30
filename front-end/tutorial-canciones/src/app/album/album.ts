@@ -1,3 +1,5 @@
+import { Usuario } from "../usuario/usuario";
+
 export class Album {
 
     id: number;
@@ -7,7 +9,9 @@ export class Album {
     medio: Medio;
     usuario: number;
     interpretes: Array<string>;
-    canciones: Array<Cancion>
+    canciones: Array<Cancion>;
+    compartidos: Array<any>;
+    propio: number;
 
     constructor(
         id: number,
@@ -17,7 +21,9 @@ export class Album {
         medio: Medio,
         usuario: number,
         interpretes: Array<string>,
-        canciones: Array<Cancion>
+        canciones: Array<Cancion>,
+        compartidos: Array<any>,
+        propio: number
     ){
         this.id = id,
         this.titulo = titulo,
@@ -26,7 +32,9 @@ export class Album {
         this.medio = medio,
         this.usuario = usuario,
         this.interpretes = interpretes,
-        this.canciones = canciones
+        this.canciones = canciones,
+        this.compartidos = compartidos,
+        this.propio = propio
     }
 }
 

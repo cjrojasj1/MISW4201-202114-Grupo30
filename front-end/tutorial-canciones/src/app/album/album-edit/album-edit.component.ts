@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Album, Medio } from '../album';
 import { AlbumService } from '../album.service';
+import { UsuarioService } from 'src/app/usuario/usuario.service';
 
 @Component({
   selector: 'app-album-edit',
@@ -32,16 +33,18 @@ export class AlbumEditComponent implements OnInit {
   ]
 
   constructor(
-    
+
     private albumService: AlbumService,
     private formBuilder: FormBuilder,
     private router: ActivatedRoute,
     private toastr: ToastrService,
-    private routerPath: Router) { }
+    private routerPath: Router,
+    private usuarioServicio: UsuarioService) { }
 
   ngOnInit() {
     if(!parseInt(this.router.snapshot.params.userId) || this.router.snapshot.params.userToken === " "){
       this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
+      this.cerrarSession();
     }
     else{
       this.albumService.getAlbum(parseInt(this.router.snapshot.params.albumId))
@@ -61,7 +64,7 @@ export class AlbumEditComponent implements OnInit {
 
   cancelCreate(){
     this.albumForm.reset()
-    this.routerPath.navigate([`/albumes/${this.userId}/${this.token}`])
+    this.routerPath.navigate([`/ionic/albumes/${this.userId}/${this.token}`])
   }
 
   editarAlbum(newAlbum: Album){
@@ -71,14 +74,16 @@ export class AlbumEditComponent implements OnInit {
     .subscribe(album => {
       this.showSuccess(album)
       this.albumForm.reset()
-      this.routerPath.navigate([`/albumes/${this.userId}/${this.token}`])
+      this.routerPath.navigate([`/ionic/albumes/${this.userId}/${this.token}`])
     },
     error=> {
       if(error.statusText === "UNAUTHORIZED"){
         this.showWarning("Su sesión ha caducado, por favor vuelva a iniciar sesión.")
+        this.cerrarSession();
       }
       else if(error.statusText === "UNPROCESSABLE ENTITY"){
         this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
+        this.cerrarSession();
       }
       else{
         this.showError("Ha ocurrido un error. " + error.message)
@@ -97,6 +102,11 @@ export class AlbumEditComponent implements OnInit {
 
   showSuccess(album: Album) {
     this.toastr.success(`El album ${album.titulo} fue editado`, "Edición exitosa");
+  }
+
+  cerrarSession(){
+    this.usuarioServicio.cerrarSession();
+    this.routerPath.navigate(['/auth']);
   }
 
 }
