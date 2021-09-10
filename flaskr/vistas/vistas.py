@@ -237,7 +237,10 @@ class VistaRecursosCompartidos(Resource):
         for ud in usuarios_destinos:
             usuario_d = Usuario.query.filter(Usuario.nombre == ud).first()
             if usuario_d is None:
-                return 'No se puede compartir el álbum porque una o más personas no se encuentran registradas en Ionic.', 400
+                if tipo_recurso == "ALBUM":
+                    return 'No se puede compartir el álbum porque una o más personas no se encuentran registradas en Ionic.', 400
+                else:
+                    return 'No se puede compartir la canción porque una o más personas no se encuentran registradas en Ionic.', 400
 
             recurso_compartido = RecursoCompartido(
                 tipo_recurso= tipo_recurso,

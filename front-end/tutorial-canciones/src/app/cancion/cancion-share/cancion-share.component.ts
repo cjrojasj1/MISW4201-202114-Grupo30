@@ -45,7 +45,7 @@ export class CancionShareComponent implements OnInit {
         error => {
           console.log(error)
           if (error.error) {
-            this.showError(error.error + " No se pudo completar el proceso de compartir.")
+            this.showError(error.error + "")
             this.routerPath.navigate([`/ionic/canciones/${this.userId}/${this.token}`])
           }
           else if (error.statusText === "UNAUTHORIZED") {
