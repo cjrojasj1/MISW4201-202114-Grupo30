@@ -237,6 +237,7 @@ class VistaRecursosCompartidos(Resource):
             return "Error. El id de recurso no puede ser vacio", 400
 
         usuarios_destinos = usuario_destino.split(',')
+        print(usuarios_destinos)
         for ud in usuarios_destinos:
             usuario_d = Usuario.query.filter(Usuario.nombre == ud).first()
             if usuario_d is None:
@@ -255,8 +256,8 @@ class VistaRecursosCompartidos(Resource):
             else:
                 recurso_compartido.cancion_id = id_recurso
 
-
-        db.session.add(recurso_compartido)
+            db.session.add(recurso_compartido)
+            
         db.session.commit()
         return recurso_compartido_schema.dump(recurso_compartido)
 
