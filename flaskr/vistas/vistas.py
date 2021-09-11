@@ -132,7 +132,6 @@ class VistaAlbumesUsuario(Resource):
 
         compartidos = []
         for c in usuario.compartidos:
-            print(c)
             if c.album_id != None :
                 ac = Album.query.filter(Album.id == c.album_id).first()
                 ac.propio = 0
