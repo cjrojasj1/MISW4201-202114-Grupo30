@@ -37,9 +37,10 @@ class VistaCancionesUsuario(Resource):
 
         compartidos = []
         for c in usuario.compartidos:
-            cc = Cancion.query.filter(Cancion.id == c.cancion.id).first()
-            cc.propia = 'False'
-            compartidos.append(cc)
+            if c.cancion_id != None :
+                cc = Cancion.query.filter(Cancion.id == c.cancion_id).first()
+                cc.propia = 'False'
+                compartidos.append(cc)
 
         canciones = []
         for cancion in propios + compartidos:
@@ -131,9 +132,11 @@ class VistaAlbumesUsuario(Resource):
 
         compartidos = []
         for c in usuario.compartidos:
-            ac = Album.query.filter(Album.id == c.album.id).first()
-            ac.propio = 0
-            compartidos.append(ac)
+            print(c)
+            if c.album_id != None :
+                ac = Album.query.filter(Album.id == c.album_id).first()
+                ac.propio = 0
+                compartidos.append(ac)
 
         albumes = []
         for album in propios + compartidos:
