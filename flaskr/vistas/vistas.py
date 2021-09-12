@@ -34,7 +34,6 @@ class VistaCancionesUsuario(Resource):
         propios = []
 
         for c in usuario.canciones:
-            c.propia = 'True'
             propios.append(c)
 
         # compartidos = []
@@ -125,7 +124,6 @@ class VistaAlbumesUsuario(Resource):
         usuario = Usuario.query.get_or_404(id_usuario)
         propios = []
         for a in usuario.albumes:
-            a.propio = 1
             propios.append(a)
 
         for c in usuario.compartidos:
