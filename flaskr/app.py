@@ -32,3 +32,7 @@ api.add_resource(VistaUsuario, '/usuario/<int:id_usuario>')
 api.add_resource(VistaAlbumes, '/albumes')
 
 jwt = JWTManager(app)
+
+import logging
+logging.basicConfig()
+logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
