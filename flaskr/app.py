@@ -4,7 +4,7 @@ from flaskr.modelos.modelos import db
 from flaskr.vistas.vistas import VistaCancionesUsuario, VistaCancion, VistaSignIn, VistaAlbum, VistaAlbumesUsuario, VistaCancionesAlbum, VistaLogIn, VistaAlbumesCanciones, VistaRecursoCompartido, VistaRecursosCompartidos, VistaUsuarios, VistaUsuario, VistaAlbumes, VistaAlbumUsuariosCompartidos, VistaCancionUsuariosCompartidos
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS, cross_origin
-import logging
+
 
 app = create_app('default')
 app_context = app.app_context()
@@ -33,5 +33,6 @@ api.add_resource(VistaAlbumes, '/albumes')
 
 jwt = JWTManager(app)
 
+import logging
 logging.basicConfig()
 logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
