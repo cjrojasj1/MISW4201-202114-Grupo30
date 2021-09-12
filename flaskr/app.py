@@ -12,7 +12,7 @@ app_context.push()
 
 db.init_app(app)
 db.create_all()
-CORS(app, resources={r"/*": {"origins": "https://ionic-misw4101-202114-grupo30.herokuapp.com"}})
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 api = Api(app)
 api.add_resource(VistaCancionesUsuario, '/usuario/<int:id_usuario>/canciones')
