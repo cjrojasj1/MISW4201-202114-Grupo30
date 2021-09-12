@@ -7,3 +7,4 @@ def create_app(config_name):
     app.config['JWT_SECRET_KEY']='frase-secreta'
     app.config['PROPAGATE_EXCEPTIONS'] = True
     return app
+
