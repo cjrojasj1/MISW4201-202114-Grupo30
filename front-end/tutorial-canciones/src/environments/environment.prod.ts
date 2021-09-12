@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  baseUrl: 'https://ionic-grupo30.herokuapp.com'
+  baseUrl: 'http://127.0.0.1:5000'
 };
