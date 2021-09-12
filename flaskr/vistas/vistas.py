@@ -34,6 +34,7 @@ class VistaCancionesUsuario(Resource):
         propios = []
 
         for c in usuario.canciones:
+            c.propia = 'True'
             propios.append(c)
 
         # compartidos = []
@@ -42,7 +43,7 @@ class VistaCancionesUsuario(Resource):
                 cc = Cancion.query.filter(Cancion.id == c.cancion_id).first()
                 cc.propia = 'False'
                 propios.append(cc)
-        db.session.rollback()
+
         return [cancion_schema.dump(ca) for ca in propios]
 
 class VistaCancion(Resource):
@@ -124,6 +125,7 @@ class VistaAlbumesUsuario(Resource):
         usuario = Usuario.query.get_or_404(id_usuario)
         propios = []
         for a in usuario.albumes:
+            a.propio = 1
             propios.append(a)
 
         for c in usuario.compartidos:
@@ -131,7 +133,7 @@ class VistaAlbumesUsuario(Resource):
                 ac = Album.query.filter(Album.id == c.album_id).first()
                 ac.propio = 0
                 propios.append(ac)
-        db.session.rollback()
+        
         return [album_schema.dump(al) for al in propios]
 
 class VistaUsuario(Resource):
